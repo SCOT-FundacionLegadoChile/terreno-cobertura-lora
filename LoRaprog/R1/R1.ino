@@ -22,6 +22,14 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 // Blinky on receipt
 #define LED 13
 
+// PARAMETERS
+  //POWER
+int PABOOST=0; // IF INAIR9B IS USED PABOOST=1, IF INAIR9 IS USED PABOOST=0.
+int POW=14; // IF PABOOST=1 POW={+5,+20}, IF PABOOST=0 POW={-1,+14}.
+  //Config
+int conf=10;
+
+
 void setup() 
 {
   pinMode(LED, OUTPUT);     
@@ -53,17 +61,48 @@ void setup()
   }
   Serial.print("Set Freq to: "); Serial.println(RF95_FREQ);
 
-  // Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
-
-  // The default transmitter power is 13dBm, using PA_BOOST.
-  // If you are using RFM95/96/97/98 modules which uses the PA_BOOST transmitter pin, then 
-  // you can set transmitter powers from 5 to 23 dBm:
-  rf95.setTxPower(23, false);
 }
 
 void loop()
 {
-  rf95.setModemConfig(RH_RF95::sf4096cr45bw125);
+// PARAMETER CONFIGURATION
+  // POWER:
+    // driver.setTxPower(10); // use PA_BOOST transmitter pin. +5 to +23 (for modules that use PA_BOOST) <- INAIR9B.
+    // driver.setTxPower(10, true); // use PA_RFO pin transmitter pin. -1 to +14 (for modules that use RFO transmitter pin) <- INAIR9.
+   if (PABOOST==1){
+     rf95.setTxPower(POW);
+     //Serial.println("PA=1");
+     }
+   else{
+     rf95.setTxPower(POW,true);
+     //Serial.println("PA=0");
+     }
+  // SPREADING FACTOR (SF), BANDWITH (B), CODE RATE (CR):
+    switch(conf){
+    case 0:
+    rf95.setModemConfig(RH_RF95::mod0);
+    case 1:
+    rf95.setModemConfig(RH_RF95::mod1);
+    case 2:
+    rf95.setModemConfig(RH_RF95::mod2);
+    case 3:
+    rf95.setModemConfig(RH_RF95::mod3);
+    case 4:
+    rf95.setModemConfig(RH_RF95::mod4);
+    case 5:
+    rf95.setModemConfig(RH_RF95::mod5);
+    case 6:
+    rf95.setModemConfig(RH_RF95::mod6);
+    case 7:
+    rf95.setModemConfig(RH_RF95::mod7);
+    case 8:
+    rf95.setModemConfig(RH_RF95::mod8);
+    case 9:
+    rf95.setModemConfig(RH_RF95::mod9);
+    case 10:
+    rf95.setModemConfig(RH_RF95::mod10);
+}
+    //rf95.printRegisters();
   if (rf95.available())
   {
     // Should be a message for us now   

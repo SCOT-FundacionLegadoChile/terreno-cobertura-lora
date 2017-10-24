@@ -21,8 +21,8 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 // PARAMETERS
   //POWER
-int PABOOST=1; // IF INAIR9B IS USED PABOOST=1, IF INAIR9 IS USED PABOOST=0.
-int POW=20; // IF PABOOST=1 POW={+5,+20}, IF PABOOST=0 POW={-1,+14}.
+int PABOOST=0; // IF INAIR9B IS USED PABOOST=1, IF INAIR9 IS USED PABOOST=0.
+int POW=14; // IF PABOOST=1 POW={+5,+20}, IF PABOOST=0 POW={-1,+14}.
   //Config
 int conf=1;
 
@@ -97,9 +97,8 @@ void loop()
     rf95.setModemConfig(RH_RF95::mod9);
     case 10:
     rf95.setModemConfig(RH_RF95::mod10);
-z}
-
-rf95.setModemConfig(RH_RF95::sf4096cr45bw78);
+}
+rf95.setModemConfig(RH_RF95::mod10);
   // Print registers
   rf95.printRegisters();
   Serial.println("Sending to rf95_server");
