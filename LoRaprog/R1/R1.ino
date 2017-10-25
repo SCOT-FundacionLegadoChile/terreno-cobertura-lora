@@ -23,11 +23,8 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 #define LED 13
 
 // PARAMETERS
-  //POWER
-int PABOOST=0; // IF INAIR9B IS USED PABOOST=1, IF INAIR9 IS USED PABOOST=0.
-int POW=14; // IF PABOOST=1 POW={+5,+20}, IF PABOOST=0 POW={-1,+14}.
   //Config
-int conf=10;
+int conf=2;
 
 
 void setup() 
@@ -65,44 +62,45 @@ void setup()
 
 void loop()
 {
-// PARAMETER CONFIGURATION
-  // POWER:
-    // driver.setTxPower(10); // use PA_BOOST transmitter pin. +5 to +23 (for modules that use PA_BOOST) <- INAIR9B.
-    // driver.setTxPower(10, true); // use PA_RFO pin transmitter pin. -1 to +14 (for modules that use RFO transmitter pin) <- INAIR9.
-   if (PABOOST==1){
-     rf95.setTxPower(POW);
-     //Serial.println("PA=1");
-     }
-   else{
-     rf95.setTxPower(POW,true);
-     //Serial.println("PA=0");
-     }
-  // SPREADING FACTOR (SF), BANDWITH (B), CODE RATE (CR):
+// SPREADING FACTOR (SF), BANDWITH (B), CODE RATE (CR):
     switch(conf){
-    case 0:
+    case 0:{
     rf95.setModemConfig(RH_RF95::mod0);
-    case 1:
+    break;}
+    case 1:{
     rf95.setModemConfig(RH_RF95::mod1);
-    case 2:
+    break;}
+    case 2:{
     rf95.setModemConfig(RH_RF95::mod2);
-    case 3:
+    break;}
+    case 3:{
     rf95.setModemConfig(RH_RF95::mod3);
-    case 4:
+    break;}
+    case 4:{
     rf95.setModemConfig(RH_RF95::mod4);
-    case 5:
+    break;}
+    case 5:{
     rf95.setModemConfig(RH_RF95::mod5);
-    case 6:
+    break;}
+    case 6:{
     rf95.setModemConfig(RH_RF95::mod6);
-    case 7:
+    break;}
+    case 7:{
     rf95.setModemConfig(RH_RF95::mod7);
-    case 8:
+    break;}
+    case 8:{
     rf95.setModemConfig(RH_RF95::mod8);
-    case 9:
+    break;}
+    case 9:{
     rf95.setModemConfig(RH_RF95::mod9);
-    case 10:
+    break;}
+    case 10:{
+    Serial.println("mode 10");
     rf95.setModemConfig(RH_RF95::mod10);
+    break;}
 }
-    //rf95.printRegisters();
+//rf95.setModemConfig(RH_RF95::Bw125Cr45Sf128);
+//    rf95.printRegisters();
   if (rf95.available())
   {
     // Should be a message for us now   

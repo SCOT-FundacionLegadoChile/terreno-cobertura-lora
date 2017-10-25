@@ -21,10 +21,10 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 // PARAMETERS
   //POWER
-int PABOOST=0; // IF INAIR9B IS USED PABOOST=1, IF INAIR9 IS USED PABOOST=0.
-int POW=14; // IF PABOOST=1 POW={+5,+20}, IF PABOOST=0 POW={-1,+14}.
+int PABOOST=1; // IF INAIR9B IS USED PABOOST=1, IF INAIR9 IS USED PABOOST=0.
+int POW=20; // IF PABOOST=1 POW={+5,+20}, IF PABOOST=0 POW={-1,+14}.
   //Config
-int conf=1;
+int conf=2;
 
 void setup() 
 {
@@ -75,30 +75,42 @@ void loop()
      }
   // SPREADING FACTOR (SF), BANDWITH (B), CODE RATE (CR):
     switch(conf){
-    case 0:
+    case 0:{
     rf95.setModemConfig(RH_RF95::mod0);
-    case 1:
+    break;}
+    case 1:{
     rf95.setModemConfig(RH_RF95::mod1);
-    case 2:
+    break;}
+    case 2:{
     rf95.setModemConfig(RH_RF95::mod2);
-    case 3:
+    break;}
+    case 3:{
     rf95.setModemConfig(RH_RF95::mod3);
-    case 4:
+    break;}
+    case 4:{
     rf95.setModemConfig(RH_RF95::mod4);
-    case 5:
+    break;}
+    case 5:{
     rf95.setModemConfig(RH_RF95::mod5);
-    case 6:
+    break;}
+    case 6:{
     rf95.setModemConfig(RH_RF95::mod6);
-    case 7:
+    break;}
+    case 7:{
     rf95.setModemConfig(RH_RF95::mod7);
-    case 8:
+    break;}
+    case 8:{
     rf95.setModemConfig(RH_RF95::mod8);
-    case 9:
+    break;}
+    case 9:{
     rf95.setModemConfig(RH_RF95::mod9);
-    case 10:
+    break;}
+    case 10:{
+    Serial.println("mode 10");
     rf95.setModemConfig(RH_RF95::mod10);
+    break;}
 }
-rf95.setModemConfig(RH_RF95::mod10);
+//rf95.setModemConfig(RH_RF95::Bw125Cr45Sf128);
   // Print registers
   rf95.printRegisters();
   Serial.println("Sending to rf95_server");
