@@ -8,6 +8,10 @@
 
 #include <SPI.h>
 #include <RH_RF95.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial toApp(6,7); //Rx, Tx.
+
 
 #define RFM95_CS 10
 #define RFM95_RST 9
@@ -32,8 +36,11 @@ void setup()
   digitalWrite(RFM95_RST, HIGH);
 
   while (!Serial);
-  Serial.begin(9600);
+  Serial.begin(57600);
   delay(100);
+  
+  toApp.begin(57600);
+
 
   Serial.println("Arduino LoRa TX Test!");
 
@@ -66,19 +73,21 @@ boolean Tx; // if Tx = true, continue sending packets. Tx = false, stop sending 
 
 void loop()
 {
-if (Serial.available()>0){
+if (toApp.available()>0){
+  Serial.println("toApp disponible");
   // Read commands from serial.
-Flag = Serial.readStringUntil('+');
-//Serial.println(Flag);
-Bost = Serial.readStringUntil('+');
-//Serial.println(Bost);
-Pot = Serial.readStringUntil('+');
-//Serial.println(Pot);
-Mode = Serial.readStringUntil('+');
-//Serial.println(Mode);
+Flag = toApp.readStringUntil('+');
+Serial.println(Flag);
+Bost = toApp.readStringUntil('+');
+Serial.println(Bost);
+Pot = toApp.readStringUntil('+');
+Serial.println(Pot);
+Mode = toApp.readStringUntil('+');
+Serial.println(Mode);
 
 // Start configuring the module.
 if (Flag=="start"){
+    Serial.println("Tx -> true");
   Tx=true; // Start sending packets.
   
 // PARAMETER CONFIGURATION
@@ -134,11 +143,13 @@ if (Flag=="start"){
 }}
 // if Flag = stop, change Tx to false.
 else if(Flag=="stop"){
+   Serial.println("Tx -> false");
   Tx=false;
 }
 } 
 
 if (Tx==true){
+   Serial.println("Tx mensajes");
   // Print registers
   //rf95.printRegisters();
   //Serial.println("Sending to rf95_server");
@@ -156,7 +167,8 @@ if (Tx==true){
   delay(10);
   rf95.send((uint8_t *)radiopacket, 20);
   Serial.println(radiopacket);
-
+  toApp.println(radiopacket);
+  toApp.write(10);
   //Serial.println("Waiting for packet to complete..."); 
   delay(10);
   rf95.waitPacketSent();

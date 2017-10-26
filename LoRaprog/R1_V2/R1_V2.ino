@@ -8,6 +8,9 @@
 
 #include <SPI.h>
 #include <RH_RF95.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial toApp(6,7); //Rx, Tx.
 
 #define RFM95_CS 10
 #define RFM95_RST 9
@@ -22,11 +25,6 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 // Blinky on receipt
 #define LED 13
 
-// PARAMETERS
-  //Config
-int conf=2;
-
-
 void setup() 
 {
   pinMode(LED, OUTPUT);     
@@ -34,8 +32,9 @@ void setup()
   digitalWrite(RFM95_RST, HIGH);
 
   while (!Serial);
-  Serial.begin(9600);
+  Serial.begin(57600);
   delay(100);
+  toApp.begin(57600);
 
   Serial.println("Arduino LoRa RX Test!");
   
@@ -67,7 +66,7 @@ String Mode; // LoRa Mode
 
 void loop(){
 if (Serial.available()>0){
-  Serial.println("Adentro");
+  //Serial.println("Adentro");
     // Read commands from serial.
 Flag = Serial.readStringUntil('+');
 //Serial.println(Flag);
@@ -87,7 +86,7 @@ if (Flag=="start"){
     break;}
     case 1:{
     rf95.setModemConfig(RH_RF95::mod1);
-    Serial.println("mode1");
+    //Serial.println("mode1");
     break;}
     case 2:{
     rf95.setModemConfig(RH_RF95::mod2);
@@ -130,11 +129,16 @@ if (Flag=="start"){
     {
       digitalWrite(LED, HIGH);
       RH_RF95::printBuffer("Received: ", buf, len);
-      Serial.print("Got: ");
-      Serial.println((char*)buf);
-       Serial.print("RSSI: ");
-      Serial.println(rf95.lastRssi(), DEC);
+      //Serial.print("Got: ");
+      Serial.print((char*)buf);
+      toApp.print((char*)buf);
       
+      //Serial.print("RSSI: ");
+      Serial.print(":");
+      toApp.print(":");
+      Serial.println(rf95.lastRssi(), DEC);
+      toApp.println(rf95.lastRssi(), DEC);
+      toApp.write(10);
       // Send a reply
       uint8_t data[] = "And hello back to you";
       rf95.send(data, sizeof(data));
