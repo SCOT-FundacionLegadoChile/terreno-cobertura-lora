@@ -25,7 +25,6 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 // Random word to send.
 String palabra[] = {"Llanquihue","masturmano","solsticion","mariacotin","convenient"};
-char caca[9];
 long randNumber;
 
 int16_t packetnum = 0;  // packet counter, we increment per xmission.
@@ -34,15 +33,17 @@ String Bost; // Bost=1 -> Inair9B, Bost=0 -> Inair9.
 String Pot; // Power used.
 String Mode; // LoRa Mode
 boolean Tx; // if Tx = true, continue sending packets. Tx = false, stop sending packets
+char aux[20]="";
+char caca[10]="";
 
 void setup() 
 {
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
   while (!Serial);
-  Serial.begin(57600);
+  Serial.begin(115200);
   delay(100);  
-  toApp.begin(57600);
+  toApp.begin(115200);
 
   Serial.println("Arduino LoRa TX Test!");
 
@@ -125,28 +126,35 @@ if (Tx==true){
   Serial.println("Sending to rf95_server");
   // Send a message to rf95_server
   
-  char radiopacket[20] = "Hello World #      ";
-  char RadioPacketF[45]="";
-  //Convert integer to string and insert in existing str: itoa(value,str,base).
-  itoa(packetnum++, radiopacket+13, 10); 
-  // Crear el paquete a enviar.
-  strcat(RadioPacketF,radiopacket);
+  //char radiopacket[20] = "Hello World #      ";
+  char RadioPacketF[50]="";
+  strcat(RadioPacketF,"Hello World #:");
+  sprintf(aux, "%06d",char(packetnum));
+  packetnum++;
+  strcat(RadioPacketF,aux);
   randNumber = random(4);
-  palabra[randNumber].toCharArray(caca, 9);
-  strcat(RadioPacketF,caca);  
-  strcat(RadioPacketF,radiopacket);
+  palabra[randNumber].toCharArray(caca, 10);
+  strcat(RadioPacketF,caca);
+  strcat(RadioPacketF,"Hello World #:");
+  strcat(RadioPacketF,aux);
+    
+  //Convert integer to string and insert in existing str: itoa(value,str,base).
+  //itoa(packetnum++, radiopacket+13, 10); 
+  // Crear el paquete a enviar.
+  //strcat(RadioPacketF,radiopacket);
+  //strcat(RadioPacketF,caca);  
+  //strcat(RadioPacketF,radiopacket);
   
   Serial.println(RadioPacketF);
   Serial.print("Sending "); 
   //Serial.println(radiopacket);
 
-  radiopacket[19]=0;
-  RadioPacketF[44]=0;
+  //radiopacket[19]=0;
   
   Serial.println("Sending...");
   delay(10);
   //rf95.send((uint8_t *)radiopacket, 20);
-  rf95.send((uint8_t *)RadioPacketF, 40);
+  rf95.send((uint8_t *)RadioPacketF, 50);
   //Serial.println(radiopacket);
   //toApp.print(radiopacket);
   toApp.print(RadioPacketF);
