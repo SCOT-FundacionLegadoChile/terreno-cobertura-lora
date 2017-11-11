@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Loreapp</string>
-    <string name="title_nav1">Monitor</string>
-    <string name="title_nav2">Pruebas</string>
-    <string name="title_nav3">Configurar</string>
-    <string name="device_list_title">Dispositivos bluetooth</string>
-</resources>
