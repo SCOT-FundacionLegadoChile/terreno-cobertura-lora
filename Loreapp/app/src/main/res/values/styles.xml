@@ -1,0 +1,21 @@
+<resources>
+    <style name="SpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@color/gris_claro</item>
+        <item name="android:dividerHeight">0.5dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/fl_azul_oscuro</item>
+        <item name="colorPrimaryDark">@color/fl_negro</item>
+        <item name="colorAccent">@color/fl_azul</item>
+
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+    </style>
+
+
+
+</resources>
