@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fl_amarillo"   >#FFC400</color>
+    <color name="fl_naranjo"    >#FF7D00</color>
+    <color name="fl_rojo"       >#FF3E00</color>
+    <color name="fl_azul"       >#1580CF</color>
+    <color name="fl_azul_oscuro">#00415B</color>
+    <color name="fl_negro"      >#191918</color>
+    <color name="fl_blanco"     >#FFFFFF</color>
+
+    <color name="gris_separadores">#8F8F8F</color>
+    <color name="gris_claro">#d1d1d1</color>
+</resources>
