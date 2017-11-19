@@ -2,10 +2,16 @@
 import numpy as np
 from xlrd import open_workbook
 
-Mes="Septiembre 2017"
-#Read cell from sheet xlsx.
+## INGRESAR DIRECCION DEL DOCUMENTO
+Universo=input("Ingrese la ubicación del archivo Universo")
+Salida1=input("Ingrese la ubicación de destino archivo nómina cobro")
+Mes=input("Ingrese la fecha de la forma: Mes Año (Septiembre 2017)")
+Fecha1=input("Ingrese fecha subida del documento de la forma AñoMesDia")
+Fecha2=input("Ingrese fecha de cobro del banco de la forma AñoMesDia")
+Salida2="Nómina "+Mes
 
-i=0
+## LEER DATOS DESDE EL EXCEL
+i=0 # Para seleccionar sólo la primera hoja (Sheet)
 wb = open_workbook('Registro Donaciones.xls')
 for sheet in wb.sheets():
     i+=1
@@ -29,9 +35,7 @@ for sheet in wb.sheets():
                 for row2 in range (start,number_of_rows):
                     value = (sheet.cell(row2, 0).value)
                     name  = (sheet.cell(row2, 2).value)
-                    #monto_aux=[00000000000]
                     monto = (sheet.cell(row2, 5).value)
-                    #monto_aux[]
                     Nombre.append(name[0:10])
                     Monto.append(str(int(monto)))
                     if value!=1 and value!=Mes:
@@ -39,43 +43,26 @@ for sheet in wb.sheets():
                         break
 
             values.append(value)
-        #print(sheet.cell(0,0).value)
-        #print(values)
-        #print(start)
-        #print(end)
-        #print(Nombre)
-        print(Monto)
-        '''
-        for row in range(1, number_of_rows):
-            values = []
-            for col in range(number_of_columns):
-                value  = (sheet.cell(row,0).value)
-                try:
-                    value = str(int(value))
-                except ValueError:
-                    pass
-                finally:
-                    values.append(value)
-            print(values)
-            '''
 
-#Read data from .txt
 
+#LEER DATA DESDE EL ARCHIVO UNIVERSO
+lineas=".........."
 file_object  = open("Cobro noviembre.txt", "r")
-#Output=[]
-#Output2=[]
 Space="              "
 Final=[]
 contador=0
 for line in file_object:
     Output=line[0:10]
     Output2=line[23:32]
-    aux=str(Monto[contador]+"0020")
-    Final.append(Output+Output2+Space+Nombre[contador]+aux.zfill(13))
+    aux=str(Monto[contador]+"00")
+    aux2=str(Nombre[contador])
+    Final.append(Output+Output2+Space+aux2.ljust(10)+aux.zfill(11)+Fecha1+Fecha2+lineas)
     contador+=1
-print(Final)
 
-a="0020"
-F=str(Monto[1]+a)
-#a[-3:-1]=b
-print(F.zfill(13))
+#/home/jaime/terreno-cobertura-lora/Cobro noviembre.txt
+#Crear archivo y guardar datos.
+
+file=open(Salida1+Salida2,'w')
+for i in range(0,len(Final)):
+    file.write(Final[i]+"\n")
+file.close()
