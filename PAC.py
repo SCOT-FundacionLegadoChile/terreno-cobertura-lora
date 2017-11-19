@@ -55,8 +55,12 @@ for line in file_object:
     Output=line[0:10]
     Output2=line[23:32]
     aux=str(Monto[contador]+"00")
+<<<<<<< HEAD
     aux2=str(Nombre[contador])
     Final.append(Output+Output2+Space+aux2.ljust(10)+aux.zfill(11)+Fecha1+Fecha2+lineas)
+=======
+    Final.append(Output+Output2+Space+Nombre[contador]+aux.zfill(13))
+>>>>>>> 4e1c33f24fe312fb8325a856d44cc8373896e70b
     contador+=1
 
 #/home/jaime/terreno-cobertura-lora/Cobro noviembre.txt
