@@ -70,7 +70,7 @@ contador=0
 for line in file_object:
     Output=line[0:10]
     Output2=line[23:32]
-    aux=str(Monto[contador]+"0020")
+    aux=str(Monto[contador]+"00")
     Final.append(Output+Output2+Space+Nombre[contador]+aux.zfill(13))
     contador+=1
 print(Final)
